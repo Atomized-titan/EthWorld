@@ -9,6 +9,11 @@ module.exports = {
       fontFamily: {
         DmSans: ["'DM Sans'", "sans-serif"],
        },
+       backgroundImage: {
+        'hero-pattern': "url('/backgroundHero.svg')",
+        'navbar-pattern': "url('/backgroundNavbar.svg')",
+        
+      }
     },
   },
   plugins: [],

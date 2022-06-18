@@ -5,7 +5,7 @@ import { accessibleOnClick } from "../utils/accessibleHandler";
 import Image from "next/image";
 import ConnectWallet from "./ConnectWallet";
 import { useWeb3 } from "@3rdweb/hooks";
-import truncateEthAddress from "../utils/truncateETHAddress";
+import truncateEthAddress from "../utils/truncateEthAddress";
 
 type Props = {
   children: any;
@@ -41,8 +41,8 @@ const LandingLayout: FC<Props> = ({ children }) => {
 
   return (
     <div>
-      <div className="flex justify-center items-center px-[140px] ">
-        <div className="w-full  rounded-3xl mt-7 flex bg-[#383838] justify-between items-center py-6  px-16 font-DmSans">
+      <div className="flex justify-center  items-center px-[140px] ">
+        <div className="w-full bg-navbar-pattern  rounded-3xl mt-7 flex bg-[#383838] justify-between items-center py-4  px-16 font-DmSans">
           <div>
             <Image
               src="/logo.svg"
@@ -84,13 +84,24 @@ const LandingLayout: FC<Props> = ({ children }) => {
                   })}
                   className="flex text-white text-sm rounded-xl py-2 pr-4  hover:bg-gray-300 font-mono font-medium cursor-pointer duration-100"
                 >
-                  <Image
-                    src="/EthLogo.svg"
-                    alt="logo"
-                    width={110}
-                    height={40}
-                    className="rounded-full"
-                  />
+                  {getNetworkMetadata(chainId).chainName === "Rinkeby" ? (
+                    <Image
+                      src="/EthLogo.svg"
+                      alt="logo"
+                      width={110}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <Image
+                      src="/PolygonLogo.svg"
+                      alt="logo"
+                      width={110}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  )}
+
                   <div>
                     <p>
                       {balance?.formatted}{" "}

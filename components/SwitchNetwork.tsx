@@ -1,5 +1,6 @@
 import { NetworkMetadata } from "@3rdweb/hooks";
 import { useState } from "react";
+import Image from "next/image";
 
 interface Props {
   switchNetwork: (newChainId: number) => Promise<void>;
@@ -11,12 +12,12 @@ const SwitchNetwork = ({ switchNetwork, getNetworkMetadata }: Props) => {
 
   const [activeNetwork, setActiveNetwork] = useState("mumbai");
 
-  console.log("activeNetwork", activeNetwork);
+  //   console.log("activeNetwork", activeNetwork);
   return (
-    <div className="flex ">
+    <div className="flex justify-center items-center">
       <button
-        className={`px-4 py-2 rounded-md  ${
-          activeNetwork === "Mumbai" ? "bg-purple-600" : "bg-purple-200"
+        className={`px-4 mr-4 flex justify-center items-center py-4 rounded-md  ${
+          activeNetwork === "Mumbai" ? "bg-[#B67DFF]" : "bg-purple-200"
         } cursor-pointer hover:bg-purple-500 text-xl font-semibold duration-100 text-white`}
         onClick={() => {
           switchNetwork(80001).then(() =>
@@ -24,10 +25,36 @@ const SwitchNetwork = ({ switchNetwork, getNetworkMetadata }: Props) => {
           );
         }}
       >
-        Mumbai Polygon Network
+        <Image
+          src="/PolygonLogo.svg"
+          alt="logo"
+          width={50}
+          height={40}
+          className="rounded-full"
+        />
+        <p className="ml-2"> Mumbai Polygon Network</p>{" "}
       </button>
+      {/* <button
+        className={`px-4 mr-4 flex justify-center items-center py-4 rounded-md  ${
+          activeNetwork === "Mumbai" ? "bg-[#B67DFF]" : "bg-purple-200"
+        } cursor-pointer hover:bg-purple-500 text-xl font-semibold duration-100 text-white`}
+        onClick={() => {
+          switchNetwork(3).then(() =>
+            setActiveNetwork(getNetworkMetadata(3).chainName)
+          );
+        }}
+      >
+        <Image
+          src="/PolygonLogo.svg"
+          alt="logo"
+          width={50}
+          height={40}
+          className="rounded-full"
+        />
+        <p className="ml-2"> Ropsten Network</p>{" "}
+      </button> */}
       <button
-        className={`px-4 py-2 rounded-md  ${
+        className={`px-4 flex justify-center items-center py-4 rounded-md  ${
           activeNetwork === "Rinkeby" ? "bg-purple-600" : "bg-purple-200"
         } cursor-pointer hover:bg-purple-500 text-xl font-semibold duration-100 text-white`}
         onClick={() => {
@@ -36,7 +63,14 @@ const SwitchNetwork = ({ switchNetwork, getNetworkMetadata }: Props) => {
           );
         }}
       >
-        Rinkeby Testnet
+        <Image
+          src="/EthLogo.svg"
+          alt="logo"
+          width={50}
+          height={40}
+          className="rounded-full"
+        />
+        <p className="ml-2"> Rinkeby Testnet</p>{" "}
       </button>
     </div>
   );

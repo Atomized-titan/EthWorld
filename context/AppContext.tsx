@@ -1,57 +1,78 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
+import axios from 'axios'
 import React, {
   createContext,
   Dispatch,
+  ReactNode,
   useEffect,
   useMemo,
   useReducer,
-} from "react";
+} from 'react'
 
-export const AppContext = createContext({
-  state: {
-    network: {
-      chainId: 0,
-      name: "",
-      networkId: 0,
-      rpcUrl: "",
-      syncing: false,
-    },
+interface State {
+  network: {
+    chainId: number
+    name: string
+    networkId: number
+    rpcUrl: string
+    syncing: boolean
+  }
+}
+
+interface Props extends State {
+  dispatch: React.Dispatch<{
+    type: string
+    data: any
+  }>
+  getProfile: (newToken?: string | undefined) => Promise<void>
+  logout: () => Promise<void>
+  loginOauth: (idToken: string) => Promise<void>
+}
+
+export const AppContext = createContext<Props>({
+  network: {
+    chainId: 0,
+    name: '',
+    networkId: 0,
+    rpcUrl: '',
+    syncing: false,
   },
   dispatch: (() => {}) as Dispatch<{
-    type: string;
-    data: any;
+    type: string
+    data: any
   }>,
   getProfile: (async () => {}) as (
-    newToken?: string | undefined
+    newToken?: string | undefined,
   ) => Promise<void>,
   logout: async () => {},
   loginOauth: (async () => {}) as (idToken: string) => Promise<void>,
-});
+})
 
-export const AppProvider: React.FC = ({ children }) => {
+export const AppProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const reducer = (state: any, action: { type: string; data: any }) =>
-    action.type.slice(0, 4) === "set_"
+    action.type.slice(0, 4) === 'set_'
       ? {
           ...state,
-          [action.type.replace("set_", "")]: action.data,
+          [action.type.replace('set_', '')]: action.data,
         }
-      : state;
+      : state
 
   const [state, dispatch] = useReducer(reducer, {
     chainId: 0,
-    name: "",
+    name: '',
     networkId: 0,
-    rpcUrl: "",
+    rpcUrl: '',
     syncing: false,
-  });
+  })
 
   const value = useMemo(
     () => ({
-      state,
+      ...state,
       dispatch,
     }),
-    [state, dispatch]
-  );
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
-};
+    [state, dispatch],
+  )
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
+}

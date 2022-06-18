@@ -1,23 +1,16 @@
+import { useSwitchNetwork, useWeb3 } from "@3rdweb/hooks";
 import type { NextPage } from "next";
-import styles from "../styles/Home.module.css";
-import { useWeb3, useSwitchNetwork } from "@3rdweb/hooks";
-import "regenerator-runtime/runtime";
-import SwitchNetwork from "../components/SwitchNetwork";
-import { useRouter } from "next/router";
 import Image from "next/image";
-import KnowMore from "../components/KnowMore";
-import useScrollPosition from "../hooks/useScrollPosition";
+import { useRouter } from "next/router";
+import "regenerator-runtime/runtime";
 import ConnectWallet from "../components/ConnectWallet";
+import KnowMore from "../components/KnowMore";
+import SwitchNetwork from "../components/SwitchNetwork";
+import useScrollPosition from "../hooks/useScrollPosition";
 
 const Home: NextPage = () => {
-  const {
-    connectWallet,
-    address,
-    error,
-    chainId,
-    balance,
-    getNetworkMetadata,
-  } = useWeb3();
+  const { connectWallet, address, error, chainId, getNetworkMetadata } =
+    useWeb3();
   const { switchNetwork } = useSwitchNetwork();
 
   error ? console.log(error) : null;
@@ -48,13 +41,6 @@ const Home: NextPage = () => {
                   getNetworkMetadata={getNetworkMetadata}
                 />
               </div>
-              <p className="px-6 py-4 rounded-full bg-gray-200 hover:bg-gray-300 font-mono font-medium cursor-pointer duration-100">
-                Your chainId is : {chainId} <br /> Your balance is :{" "}
-                {balance?.formatted}{" "}
-                {getNetworkMetadata(chainId).chainName === "Rinkeby"
-                  ? "ETH"
-                  : "MATIC"}
-              </p>
             </div>
           ) : (
             <ConnectWallet connectWallet={connectWallet} />
@@ -62,9 +48,6 @@ const Home: NextPage = () => {
         </div>
         {address ? (
           <div className="flex flex-col items-center justify-center  py-2 ">
-            <p className={styles.description}>
-              Your wallet address <code className={styles.code}>{address}</code>
-            </p>
             <button
               className="px-4 py-2 rounded-md bg-blue-700 cursor-pointer hover:bg-purple-500 text-xl font-semibold duration-100 text-white"
               onClick={() => router.push("/dashboard")}
@@ -92,7 +75,23 @@ const Home: NextPage = () => {
         </div>
       </section>
       <KnowMore />
-      <div className="h-screen">hello</div>
+      <div className="h-[345px] bg-hero-pattern flex flex-col justify-center items-center">
+        <h1 className="text-6xl mb-6 font-semibold text-white whitespace-nowrap">
+          Start Transferring Now!{" "}
+        </h1>
+        {address ? (
+          <div className="flex flex-col items-center justify-center  py-2 ">
+            <button
+              className="px-4 py-2 rounded-md bg-blue-700 cursor-pointer hover:bg-purple-500 text-xl font-semibold duration-100 text-white"
+              onClick={() => router.push("/dashboard")}
+            >
+              Go to dashboard{" "}
+            </button>
+          </div>
+        ) : (
+          <ConnectWallet connectWallet={connectWallet} />
+        )}
+      </div>
     </div>
   );
 };
